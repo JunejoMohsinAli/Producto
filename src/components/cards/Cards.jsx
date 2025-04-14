@@ -1,5 +1,5 @@
 import React from 'react'
-import './cards.css'
+import './Cards.css'
 import categoriesIcon from '../../assets/categories.svg'
 import productsIcon from '../../assets/products.svg'
 import salesIcon from '../../assets/sales.svg'
