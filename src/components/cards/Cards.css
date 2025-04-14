@@ -1,0 +1,90 @@
+@media (max-width: 768px) {
+  .card {
+      width: 100%;
+  }
+  .card-text {
+      width: 70%;
+  }
+  .card-title {
+      font-size: 16px;
+      margin-left: 16px;
+  }
+  .card-value {
+      font-size: 24px;
+      margin-left: 16px;
+  }
+  .card-icon {
+      width: 48px;
+      height: 48px;
+      margin-right: 16px;
+      margin-top: 0;
+      align-self: center;
+  }
+}
+
+.flexbox-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px 20px;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    padding: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 384px;
+    min-height: 136px;
+    border-radius: 10px;
+    background-color: #7C5CFC;
+    color: white;
+    box-shadow: 0px 4px 60px 0px #0000001A;
+}
+
+.card-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 60%;
+}
+
+  .purple-card {
+    background-color: #7C5CFC;
+  }
+  
+  .dark-card {
+    background-color: #191E2A;
+  }
+  
+  .card-title {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 150%;
+    letter-spacing: -2%;
+    margin-top: 29px;
+    margin-left: 24px;
+    }
+  
+  .card-value {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 150%;
+    letter-spacing: -3%;
+    margin-left: 24px;
+    margin-bottom: 0;
+  }
+  
+  .card-icon {
+    width: 62px;
+    height: 62px;
+    align-self: center;
+    margin-top: 37px;
+    margin-right: 24px;
+    margin-top: 20px;
+  }

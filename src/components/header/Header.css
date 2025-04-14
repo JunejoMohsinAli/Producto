@@ -1,0 +1,102 @@
+.menu-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+}
+
+.header {
+    background-color: #191E2A;
+    width: 100%;
+    box-sizing: border-box;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    font-size: 18px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.logo-img {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+}
+
+.navbar a:hover {
+    opacity: 0.8;
+}
+
+.login-btn {
+    background: #7C5CFC;
+    color: white;
+    border: none;
+    padding: 13px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    gap: 10px;
+    font-family: Plus Jakarta Sans;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+    text-align: center;
+}
+
+.login-btn:hover {
+    background: #6d28d9;
+}
+
+@media (max-width: 768px) {
+    .menu-button {
+        display: block;
+    }
+    .navbar {
+        display: none;
+        
+    }
+    .navbar.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100px;
+        left: 0;
+        width: 100%;
+        background-color: #191E2A;
+    }
+    .navbar.open a, .navbar.open button {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+}
+
+@media (min-width: 769px) {
+    .navbar {
+        display: flex;
+    }
+    .menu-button {
+        display: none;
+    }
+}
