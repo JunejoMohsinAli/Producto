@@ -12,7 +12,7 @@ export default function Hero() {
             <h2 className="hero-subtitle">
             Your one-stop finance empower platform. <br />
             Manage all your business expenses with our Producto app.
-            </h2>
+            </h2> 
         </section> 
     </div>
   )
