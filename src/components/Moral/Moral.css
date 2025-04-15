@@ -1,0 +1,236 @@
+/* Button */
+.container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  box-sizing: border-box;
+  margin-top: 2rem;
+}
+
+.open-modal-button {
+  background-color: #7C5CFC;
+  color: white;
+  width: 100%;
+  max-width: 385px;
+  height: 60px;
+  border-radius: 66px;
+  padding: 0 24px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 150%;
+  border: none;
+  cursor: pointer;
+}
+
+.open-modal-button:hover {
+  background-color: #6a4be0;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.modal-header h2 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 22px;
+  margin: 0;
+}
+
+.close-icon {
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: #999;
+}
+
+.close-icon:hover {
+  color: #333;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+}
+
+.form-group input {
+  height: 40px;
+  padding: 0.4rem;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e5e5e5;
+}
+
+.sell-button {
+  background-color: #7c5cfc;
+  color: white;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sell-button:hover {
+  background-color: #6a4be0;
+}
+
+/* Select */
+.custom-select {
+  position: relative;
+  font-family: Arial;
+  margin-bottom: 1rem;
+}
+
+.custom-select label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 500;
+}
+
+.select-container {
+  position: relative;
+}
+
+.select-selected {
+  background-color: white;
+  color: black;
+  padding: 8px 16px;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+/* Arrow */
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: black transparent transparent transparent;
+}
+
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent black transparent;
+  top: 7px;
+}
+
+/* Options list */
+.select-items {
+  position: absolute;
+  background-color: white;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Each option */
+.select-items div {
+  color: black;
+  padding: 8px 16px;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: rgba(106,75,224);
+  color: white;
+}
+
+.select-hide {
+  display: none;
+}
+
+.placeholder-option {
+  color: #999;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .open-modal-button {
+    height: 50px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .open-modal-button {
+    max-width: 100%;
+    font-size: 16px;
+    height: 50px;
+  }
+
+  .modal-content {
+    max-width: 95%;
+  }
+}

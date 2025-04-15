@@ -43,6 +43,9 @@
     color: white;
     box-shadow: 0px 4px 60px 0px #0000001A;
 }
+.card:hover {
+  background-color: #191E2A;
+}
 
 .card-text {
     display: flex;
@@ -51,14 +54,6 @@
     align-items: flex-start;
     width: 60%;
 }
-
-  .purple-card {
-    background-color: #7C5CFC;
-  }
-  
-  .dark-card {
-    background-color: #191E2A;
-  }
   
   .card-title {
     font-family: "Plus Jakarta Sans", sans-serif;
