@@ -201,10 +201,16 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+/* Hover  */
 .select-items div:hover,
 .same-as-selected {
   background-color: rgba(106,75,224);
   color: white;
+}
+
+.select-items div.same-as-selected {
+  background-color: rgba(106,75,224) !important;
+  color: white !important;
 }
 
 .select-hide {

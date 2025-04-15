@@ -1,51 +1,69 @@
 import React, { useState, useEffect } from 'react';
-import './Moral.css';
+import './Modal.css';
 
-// CustomSelect
 function CustomSelect({ options, defaultOption, label, id }) {
+
   const [selected, setSelected] = useState(defaultOption);
   const [open, setOpen] = useState(false);
 
-  // Toggle dropdown
+  // Toggle dropdown open/close
   const toggleOpen = (e) => {
     e.stopPropagation();
-    setOpen(!open);
+
+    if (!open) {
+      document.dispatchEvent(new Event('closeAllSelects'));
+      setOpen(true);
+    } else {
+
+      setOpen(false);
+    }
   };
 
-  // Option selection
+  // Handle option click and update the selected state
   const handleOptionClick = (option) => {
+    // Prevent selecting the default option
     if (option === defaultOption) return;
     setSelected(option);
+    // Close the dropdown after selecting an option
     setOpen(false);
   };
 
-  // Close dropdown if clicked outside
   useEffect(() => {
+    const closeAllHandler = () => {
+      if (open) setOpen(false);
+    };
+    document.addEventListener('closeAllSelects', closeAllHandler);
+
     const handleClickOutside = () => {
       if (open) setOpen(false);
     };
     if (open) {
       document.addEventListener('click', handleClickOutside);
     }
-    return () => document.removeEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('closeAllSelects', closeAllHandler);
+      document.removeEventListener('click', handleClickOutside);
+    };
   }, [open]);
 
   return (
     <div className="custom-select" id={id}>
       {label && <label htmlFor={id}>{label}</label>}
       <div className="select-container">
-      <div
-        className={`select-selected ${open ? 'select-arrow-active' : ''} ${selected === defaultOption ? 'placeholder-option' : ''}`}
-        onClick={toggleOpen}>
-        {selected}
-      </div>
+
+        <div
+          className={`select-selected ${open ? 'select-arrow-active' : ''} ${selected === defaultOption ? 'placeholder-option' : ''}`}
+          onClick={toggleOpen}>
+          {selected}
+        </div>
+
         <div className={`select-items ${open ? '' : 'select-hide'}`}>
           {options.map((option, index) => (
             <div
               key={index}
               onClick={() => handleOptionClick(option)}
-              className={selected === option ? 'same-as-selected' : ''}
-            >
+              className={selected === option ? 'same-as-selected' : ''}>
               {option}
             </div>
           ))}
@@ -55,16 +73,18 @@ function CustomSelect({ options, defaultOption, label, id }) {
   );
 }
 
-// Button
+// Button 
 export default function Button() {
+  // State to control modal visibility
   const [showModal, setShowModal] = useState(false);
 
   const openModal = () => setShowModal(true);
+
   const closeModal = () => setShowModal(false);
 
   return (
     <div className="container">
-      {/* Button to open modal */}
+      {/* Button to open the modal */}
       <div className="button-container">
         <button className="open-modal-button" onClick={openModal}>
           Create a sell
@@ -105,7 +125,13 @@ export default function Button() {
                   id="productSelect"
                   label="Product"
                   defaultOption="Select"
-                  options={['Subscription', 'Supplies', 'Service Package', 'Monthly Report', 'Hardware Equipment']}
+                  options={[
+                    'Subscription',
+                    'Supplies',
+                    'Service Package',
+                    'Monthly Report',
+                    'Hardware Equipment'
+                  ]}
                 />
               </div>
 
