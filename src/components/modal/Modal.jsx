@@ -77,10 +77,29 @@ function CustomSelect({ options, defaultOption, label, id }) {
 export default function Button() {
   // State to control modal visibility
   const [showModal, setShowModal] = useState(false);
+  const [amount, setAmount] = useState(''); // State to store the raw amount input
+
+  // Formatter for PKR currency
+    const formatPKR = (value) => {
+    const numericValue = value.replace(/[^0-9.]/g, '');
+    if (!numericValue) return '';
+    const number = parseFloat(numericValue);
+    if (isNaN(number)) return '';
+    return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR' }).format(number);
+  };
+
+  const placeholderPKR = new Intl.NumberFormat('en-PK', {
+    style: 'currency',
+    currency: 'PKR',
+  }).format(0);
 
   const openModal = () => setShowModal(true);
-
   const closeModal = () => setShowModal(false);
+
+  const handleAmountChange = (e) => {
+    const rawValue = e.target.value.replace(/[^0-9.]/g, '');
+    setAmount(rawValue);
+  };
 
   return (
     <div className="container">
@@ -137,7 +156,20 @@ export default function Button() {
 
               <div className="form-group">
                 <label htmlFor="amountInput">Amount</label>
-                <input type="text" id="amountInput" placeholder="$0.00" />
+                <input
+                  type="text"
+                  id="amountInput"
+                  placeholder="Rs. 0.00"
+                  value={amount}
+                  onChange={handleAmountChange}
+                  step="0.01"
+                />
+
+                {amount && (
+                  <div className="formatted-amount">
+                    {formatPKR(amount)}
+                  </div>
+                )}
               </div>
             </div>
             <div className="modal-footer">

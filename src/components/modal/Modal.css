@@ -243,3 +243,9 @@
     max-width: 95%;
   }
 }
+
+.formatted-amount {
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 5px;
+}
