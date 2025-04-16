@@ -2,19 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './Modal.css';
 
 function CustomSelect({ options, defaultOption, label, id }) {
-
   const [selected, setSelected] = useState(defaultOption);
   const [open, setOpen] = useState(false);
 
   // Toggle dropdown open/close
   const toggleOpen = (e) => {
     e.stopPropagation();
-
     if (!open) {
       document.dispatchEvent(new Event('closeAllSelects'));
       setOpen(true);
     } else {
-
       setOpen(false);
     }
   };
@@ -51,13 +48,11 @@ function CustomSelect({ options, defaultOption, label, id }) {
     <div className="custom-select" id={id}>
       {label && <label htmlFor={id}>{label}</label>}
       <div className="select-container">
-
         <div
           className={`select-selected ${open ? 'select-arrow-active' : ''} ${selected === defaultOption ? 'placeholder-option' : ''}`}
           onClick={toggleOpen}>
           {selected}
         </div>
-
         <div className={`select-items ${open ? '' : 'select-hide'}`}>
           {options.map((option, index) => (
             <div
@@ -73,14 +68,15 @@ function CustomSelect({ options, defaultOption, label, id }) {
   );
 }
 
-// Button 
 export default function Button() {
-  // State to control modal visibility
+  // The state now holds the raw amount as a string
+  const [amount, setAmount] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [amount, setAmount] = useState(''); // State to store the raw amount input
+  // Track if the input is focused
+  const [isFocused, setIsFocused] = useState(false);
 
   // Formatter for PKR currency
-    const formatPKR = (value) => {
+  const formatPKR = (value) => {
     const numericValue = value.replace(/[^0-9.]/g, '');
     if (!numericValue) return '';
     const number = parseFloat(numericValue);
@@ -88,17 +84,23 @@ export default function Button() {
     return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR' }).format(number);
   };
 
-  const placeholderPKR = new Intl.NumberFormat('en-PK', {
-    style: 'currency',
-    currency: 'PKR',
-  }).format(0);
-
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
   const handleAmountChange = (e) => {
+    // Always store the raw number (unformatted)
     const rawValue = e.target.value.replace(/[^0-9.]/g, '');
     setAmount(rawValue);
+  };
+
+  // When the user focuses on the input, show raw input
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  // When the user blurs the input, apply formatting
+  const handleBlur = () => {
+    setIsFocused(false);
   };
 
   return (
@@ -117,7 +119,7 @@ export default function Button() {
             <div className="modal-header">
               <h2>Create Sell</h2>
               <button className="close-icon" onClick={closeModal}>
-                &times;
+                ×
               </button>
             </div>
             <div className="modal-body">
@@ -149,7 +151,7 @@ export default function Button() {
                     'Supplies',
                     'Service Package',
                     'Monthly Report',
-                    'Hardware Equipment'
+                    'Hardware Equipment',
                   ]}
                 />
               </div>
@@ -160,16 +162,12 @@ export default function Button() {
                   type="text"
                   id="amountInput"
                   placeholder="Rs. 0.00"
-                  value={amount}
+                  // When focused, show raw number; otherwise, show formatted version
+                  value={isFocused ? amount : (amount ? formatPKR(amount) : '')}
                   onChange={handleAmountChange}
-                  step="0.01"
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
                 />
-
-                {amount && (
-                  <div className="formatted-amount">
-                    {formatPKR(amount)}
-                  </div>
-                )}
               </div>
             </div>
             <div className="modal-footer">
