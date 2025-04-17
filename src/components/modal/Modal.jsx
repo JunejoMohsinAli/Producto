@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Modal.css';
 
 function CustomSelect({ options, defaultOption, label, id }) {
   const [selected, setSelected] = useState(defaultOption);
   const [open, setOpen] = useState(false);
 
-  // Toggle dropdown open/close
   const toggleOpen = (e) => {
     e.stopPropagation();
     if (!open) {
@@ -16,27 +15,18 @@ function CustomSelect({ options, defaultOption, label, id }) {
     }
   };
 
-  // Handle option click and update the selected state
   const handleOptionClick = (option) => {
-    // Prevent selecting the default option
     if (option === defaultOption) return;
     setSelected(option);
-    // Close the dropdown after selecting an option
     setOpen(false);
   };
 
-  useEffect(() => {
-    const closeAllHandler = () => {
-      if (open) setOpen(false);
-    };
+  React.useEffect(() => {
+    const closeAllHandler = () => open && setOpen(false);
     document.addEventListener('closeAllSelects', closeAllHandler);
 
-    const handleClickOutside = () => {
-      if (open) setOpen(false);
-    };
-    if (open) {
-      document.addEventListener('click', handleClickOutside);
-    }
+    const handleClickOutside = () => open && setOpen(false);
+    if (open) document.addEventListener('click', handleClickOutside);
 
     return () => {
       document.removeEventListener('closeAllSelects', closeAllHandler);
@@ -50,78 +40,79 @@ function CustomSelect({ options, defaultOption, label, id }) {
       <div className="select-container">
         <div
           className={`select-selected ${open ? 'select-arrow-active' : ''} ${selected === defaultOption ? 'placeholder-option' : ''}`}
-          onClick={toggleOpen}>
+          onClick={toggleOpen}
+        >
           {selected}
         </div>
-        <div className={`select-items ${open ? '' : 'select-hide'}`}>
-          {options.map((option, index) => (
+        <div className={`select-items ${open ? '' : 'select-hide'}`}>{
+          options.map((option, idx) => (
             <div
-              key={index}
+              key={idx}
+              className={selected === option ? 'same-as-selected' : ''}
               onClick={() => handleOptionClick(option)}
-              className={selected === option ? 'same-as-selected' : ''}>
+            >
               {option}
             </div>
-          ))}
-        </div>
+          ))
+        }</div>
       </div>
     </div>
   );
 }
 
 export default function Button() {
-  // The state now holds the raw amount as a string
   const [amount, setAmount] = useState('');
   const [showModal, setShowModal] = useState(false);
-  // Track if the input is focused
-  const [isFocused, setIsFocused] = useState(false);
 
-  // Formatter for PKR currency
+  // Formatter for PKR currency without trailing .00 when not needed
   const formatPKR = (value) => {
     const numericValue = value.replace(/[^0-9.]/g, '');
     if (!numericValue) return '';
     const number = parseFloat(numericValue);
     if (isNaN(number)) return '';
-    return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR' }).format(number);
+    return new Intl.NumberFormat('en-PK', {
+      style: 'currency',
+      currency: 'PKR',
+      minimumFractionDigits: number % 1 === 0 ? 0 : 2,
+      maximumFractionDigits: 2
+    }).format(number);
   };
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
-  const handleAmountChange = (e) => {
-    // Always store the raw number (unformatted)
-    const rawValue = e.target.value.replace(/[^0-9.]/g, '');
-    setAmount(rawValue);
+  const handleKeyDown = (e) => {
+    const { key } = e;
+    if (/^[0-9]$/.test(key)) {
+      setAmount(prev => prev + key);
+    } else if (key === 'Backspace') {
+      setAmount(prev => prev.slice(0, -1));
+    } else if (key === '.' && !amount.includes('.')) {
+      setAmount(prev => prev + key);
+    }
+    e.preventDefault();
   };
 
-  // When the user focuses on the input, show raw input
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
-
-  // When the user blurs the input, apply formatting
-  const handleBlur = () => {
-    setIsFocused(false);
+  const handlePaste = (e) => {
+    e.preventDefault();
   };
 
   return (
     <div className="container">
-      {/* Button to open the modal */}
       <div className="button-container">
         <button className="open-modal-button" onClick={openModal}>
           Create a sell
         </button>
       </div>
 
-      {/* Modal */}
       {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
               <h2>Create Sell</h2>
-              <button className="close-icon" onClick={closeModal}>
-                ×
-              </button>
+              <button className="close-icon" onClick={closeModal}>×</button>
             </div>
+
             <div className="modal-body">
               <div className="form-group">
                 <CustomSelect
@@ -161,19 +152,16 @@ export default function Button() {
                 <input
                   type="text"
                   id="amountInput"
-                  placeholder="Rs. 0.00"
-                  // When focused, show raw number; otherwise, show formatted version
-                  value={isFocused ? amount : (amount ? formatPKR(amount) : '')}
-                  onChange={handleAmountChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
+                  placeholder="Rs. 0"
+                  value={amount ? formatPKR(amount) : ''}
+                  onKeyDown={handleKeyDown}
+                  onPaste={handlePaste}
                 />
               </div>
             </div>
+
             <div className="modal-footer">
-              <button className="sell-button" onClick={closeModal}>
-                Sell
-              </button>
+              <button className="sell-button" onClick={closeModal}>Sell</button>
             </div>
           </div>
         </div>
